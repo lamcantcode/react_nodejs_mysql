@@ -54,16 +54,15 @@ function App() {
 					<div className="navbar">
 						<Link to="/"> Home</Link>
 						<Link to="/createpost"> Create A Post</Link>
+						<h1>{authState.username}</h1>
 						{!authState.status ? (
 							<>
 								<Link to="/login"> Login </Link>
 								<Link to="/registration"> Registration </Link>
 							</>
 						) : (
-							<button onClick={logout}>logout</button>
+							<button onClick={logout}> logout</button>
 						)}
-
-						<h1>{authState.username}</h1>
 					</div>
 					<Routes>
 						<Route path="/" element={<Home />} />

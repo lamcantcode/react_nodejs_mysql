@@ -157,6 +157,8 @@ a {
 }
 
 .navbar button {
+  position: absolute;
+  right: 0;
   width: 100px;
   height: 40px;
   cursor: pointer;
@@ -165,8 +167,10 @@ a {
 }
 
 .navbar h1 {
+  position: absolute;
+  right: 0;
   text-align: right;
-  margin-right: 10px;
+  margin-right: 150px;
   color: white;
   font-weight: lighter;
 }
