@@ -15,8 +15,12 @@ const Login = () => {
 			if (respon.data.error) {
 				alert(respon.data.error);
 			} else {
-				localStorage.setItem("accessToken", respon.data);
-				setAuthState(true);
+				localStorage.setItem("accessToken", respon.data.token);
+				setAuthState({
+					username: respon.data.username,
+					id: respon.data.id,
+					status: true,
+				});
 				history("/");
 			}
 		});

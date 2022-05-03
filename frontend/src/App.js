@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+	Link,
+	useNavigate,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
@@ -10,8 +16,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-	const [authState, setAuthState] = useState(false);
-
+	const [authState, setAuthState] = useState({
+		username: "",
+		id: 0,
+		status: false,
+	});
+	//let history = useNavigate();
 	useEffect(() => {
 		axios
 			.get("http://localhost:3001/auth/auth", {
@@ -21,12 +31,21 @@ function App() {
 			})
 			.then((Respon) => {
 				if (Respon.data.error) {
-					setAuthState(false);
+					setAuthState({ ...authState, status: false });
 				} else {
-					setAuthState(true);
+					setAuthState({
+						username: Respon.data.username,
+						id: Respon.data.id,
+						status: true,
+					});
 				}
 			});
 	}, []);
+
+	const logout = () => {
+		localStorage.removeItem("accessToken");
+		setAuthState({ username: "", id: 0, status: false });
+	};
 
 	return (
 		<div className="App">
@@ -35,12 +54,16 @@ function App() {
 					<div className="navbar">
 						<Link to="/"> Home</Link>
 						<Link to="/createpost"> Create A Post</Link>
-						{!authState && (
+						{!authState.status ? (
 							<>
 								<Link to="/login"> Login </Link>
 								<Link to="/registration"> Registration </Link>
 							</>
+						) : (
+							<button onClick={logout}>logout</button>
 						)}
+
+						<h1>{authState.username}</h1>
 					</div>
 					<Routes>
 						<Route path="/" element={<Home />} />
